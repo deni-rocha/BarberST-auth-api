@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(router)
 
 // rotas
-router.get("/", (req: Request, res: Response) => {
+router.get("/api", (req: Request, res: Response) => {
   res.send({
     name: "estrutura base, Node.js para vercel",
     idade: 22

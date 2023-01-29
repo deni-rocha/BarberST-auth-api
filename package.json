@@ -1,5 +1,5 @@
 {
-  "name": "cade",
+  "name": "cade-api",
   "version": "1.0.0",
   "description": "",
   "main": "./api/index.js",
