@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "./dist",
+    "resolveJsonModule": true,
+    "lib": ["ESNext", "DOM"]
+  },
+  "include": ["api/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
