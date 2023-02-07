@@ -1,5 +1,5 @@
 {
-  "name": "basic-api",
+  "name": "api-with-mongodb",
   "version": "1.0.0",
   "description": "",
   "main": "./api/index.js",
