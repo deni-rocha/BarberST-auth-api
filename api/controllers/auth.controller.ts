@@ -5,37 +5,7 @@ import User from "../models/User"
 
 const authController = {
   register: async (req: Request, res: Response) => {
-    const { name, email, password, confirmPassword } = req.body
-
-    if (!name) {
-      return res.status(422).json({
-        message: "o nome é obrigatório!"
-      })
-    }
-    if (!email) {
-      return res.status(422).json({
-        message: "o email é obrigatória!"
-      })
-    }
-    if (!password) {
-      return res.status(422).json({
-        message: "a senha é obrigatória!"
-      })
-    }
-    if (password !== confirmPassword) {
-      return res.status(422).json({
-        message: "as senhas não conferem!"
-      })
-    }
-
-    // check if user exists
-    const userExists = await User.findOne({ email: email })
-
-    if (userExists) {
-      return res.status(422).json({
-        message: "email já cadastrado!"
-      })
-    }
+    const { name, email, role, password, confirmPassword } = req.body
 
     // create password
     const salt = await genSalt(12)
@@ -45,6 +15,7 @@ const authController = {
     const user = new User({
       name,
       email,
+      role,
       password: passwordHash
     })
 
@@ -54,6 +25,7 @@ const authController = {
         msg: "Usuário criado com sucesso!"
       })
     } catch (error) {
+      console.log(error)
       res.status(500).json({
         msg: "aconteceu um erro interno no servidor, tente novamente mais tarde!"
       })
