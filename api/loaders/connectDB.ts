@@ -14,9 +14,9 @@ const connectDB = async (): Promise<void> => {
       `mongodb+srv://${dbUser}:${dbPassword}@cluster0.sq7oujl.mongodb.net/auth-db?retryWrites=true&w=majority`
     )
 
-    console.log("deu bom")
+    console.log("banco conectado")
   } catch (error) {
-    console.log("deu ruim", error)
+    console.log("banco não conectado", error)
   }
 }
 
