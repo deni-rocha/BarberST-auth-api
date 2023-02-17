@@ -2,7 +2,7 @@
   "name": "api-with-mongodb",
   "version": "1.0.0",
   "description": "",
-  "main": "./api/index.js",
+  "main": "./api/index.ts",
   "scripts": {
     "dev": "nodemon --watch ./api/**/*.ts --exec ts-node ./api/index.ts",
     "start": "ts-node ./api/index.ts",
