@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from "express"
-import User from "../../models/User"
+import Usuario from "../../models/Usuario"
 
-const validateRegister = async (
+const validarRegistro = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { name, email, role, password, confirmPassword } = req.body
+  const { nome, email, permissao, senha, confirmarSenha } = req.body
 
-  if (!name) {
+  if (!nome) {
     return res.status(422).json({
       message: "o nome é obrigatório!"
     })
@@ -18,26 +18,26 @@ const validateRegister = async (
       message: "o email é obrigatória!"
     })
   }
-  if (!role) {
+  if (!permissao) {
     return res.status(422).json({
       message: "defina perfil do usuário!"
     })
   }
-  if (!password) {
+  if (!senha) {
     return res.status(422).json({
       message: "a senha é obrigatória!"
     })
   }
-  if (password !== confirmPassword) {
+  if (senha !== confirmarSenha) {
     return res.status(422).json({
       message: "as senhas não conferem!"
     })
   }
 
-  // check if user exists
-  const userExists = await User.findOne({ email: email })
+  // verificar se usuário já existe
+  const usuarioExiste = await Usuario.findOne({ email: email })
 
-  if (userExists) {
+  if (usuarioExiste) {
     return res.status(422).json({
       message: "email já cadastrado!"
     })
@@ -46,4 +46,4 @@ const validateRegister = async (
   next()
 }
 
-export { validateRegister }
+export { validarRegistro }

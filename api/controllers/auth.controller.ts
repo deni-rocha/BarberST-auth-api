@@ -1,26 +1,26 @@
 import { compare, genSalt, hash } from "bcrypt"
 import { Request, Response } from "express"
 import { sign } from "jsonwebtoken"
-import User from "../models/User"
+import Usuario from "../models/Usuario"
 
 const authController = {
-  register: async (req: Request, res: Response) => {
-    const { name, email, role, password, confirmPassword } = req.body
+  registrar: async (req: Request, res: Response) => {
+    const { nome, email, permissao, senha } = req.body
 
-    // create password
+    // criar senha
     const salt = await genSalt(12)
-    const passwordHash = await hash(password, salt)
+    const hashSenha = await hash(senha, salt)
 
-    // create user
-    const user = new User({
-      name,
+    // criar usuário
+    const usuario = new Usuario({
+      nome,
       email,
-      role,
-      password: passwordHash
+      permissao,
+      senha: hashSenha
     })
 
     try {
-      await user.save()
+      await usuario.save()
       res.status(201).json({
         msg: "Usuário criado com sucesso!"
       })
@@ -33,32 +33,32 @@ const authController = {
   },
 
   login: async (req: Request, res: Response) => {
-    const { email, password } = req.body
+    const { email, senha } = req.body
 
     if (!email) {
       return res.status(422).json({
         message: "o email é obrigatória!"
       })
     }
-    if (!password) {
+    if (!senha) {
       return res.status(422).json({
         message: "a senha é obrigatória!"
       })
     }
 
-    // check if user exists
-    const user = await User.findOne({ email: email })
+    // verificar se usuário já existe
+    const usuario = await Usuario.findOne({ email: email })
 
-    if (!user) {
+    if (!usuario) {
       return res.status(404).json({
         message: "usuário não encontrado!"
       })
     }
 
-    // check if password match
-    const checkPassword = await compare(password, user.password)
+    // verificar se a senha coincidem
+    const verificarSenha = await compare(senha, usuario.senha)
 
-    if (!checkPassword) {
+    if (!verificarSenha) {
       return res.status(422).json({
         msg: "senha inválida!"
       })
@@ -69,7 +69,7 @@ const authController = {
 
       const token = sign(
         {
-          id: user.id
+          id: usuario.id
         },
         secret
       )

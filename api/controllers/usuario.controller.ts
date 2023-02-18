@@ -1,23 +1,23 @@
 import { Request, Response } from "express"
-import User from "../models/User"
+import Usuario from "../models/Usuario"
 
-const user = {
+const usuario = {
   infoById: async (req: Request, res: Response) => {
     const id = req.params.id
 
-    // check if user exists
-    const user = await User.findById(id, "-password")
+    // verifica se usuário existe
+    const usuario = await Usuario.findById(id, "-senha")
 
-    if (!user) {
+    if (!usuario) {
       return res.status(404).json({
         msg: "Usuário não encontrado!"
       })
     }
 
     res.status(200).json({
-      user
+      usuario
     })
   }
 }
 
-export default user
+export default usuario

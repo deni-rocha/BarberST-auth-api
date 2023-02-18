@@ -1,9 +1,10 @@
+import "dotenv/config"
 import express = require("express")
 import { Router } from "express"
 
 import cors = require("cors")
 import authRouter from "./routes/auth"
-import userRouter from "./routes/user"
+import userRouter from "./routes/usuario"
 import loaders from "./loaders"
 
 // configurações
@@ -25,4 +26,4 @@ loaders()
 
 const porta = process.env.PORT || 4000
 
-app.listen(porta, () => console.log("tá rodando na porta " + porta))
+app.listen(porta, () => console.log(`tá rodando em http://localhost:${porta}`))
