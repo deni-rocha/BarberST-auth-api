@@ -5,7 +5,7 @@ import Usuario from "../models/Usuario"
 
 const authController = {
   registrar: async (req: Request, res: Response) => {
-    const { nome, email, permissao, senha } = req.body
+    const { nome, email, permissao, senha, sexo } = req.body
 
     // criar senha
     const salt = await genSalt(12)
@@ -16,7 +16,8 @@ const authController = {
       nome,
       email,
       permissao,
-      senha: hashSenha
+      senha: hashSenha,
+      sexo
     })
 
     try {

@@ -5,6 +5,7 @@ export interface IUsuario {
   email: string
   senha: string
   permissao: string
+  sexo: string
 }
 
 const usuarioSchema = new Schema<IUsuario>({
@@ -16,7 +17,8 @@ const usuarioSchema = new Schema<IUsuario>({
     enum: ["ADMIN", "USUARIO"],
     default: "USUARIO",
     required: true
-  }
+  },
+  sexo: { type: String, enum: ["M", "F"], required: true }
 })
 
 const User = model<IUsuario>("Usuario", usuarioSchema)
