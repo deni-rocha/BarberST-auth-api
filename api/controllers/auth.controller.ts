@@ -75,9 +75,13 @@ const authController = {
         secret
       )
 
+      // remove a senha do obejeto usuario
+      usuario.senha = null
+
       res.status(200).json({
         msg: "Autenticação realizada com sucesso",
-        token
+        token,
+        usuario
       })
     } catch (err) {}
   }
