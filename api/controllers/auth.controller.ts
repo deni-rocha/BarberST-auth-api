@@ -23,12 +23,13 @@ const authController = {
     try {
       await usuario.save()
       res.status(201).json({
-        msg: "Usuário criado com sucesso!"
+        message: "Usuário criado com sucesso!"
       })
     } catch (error) {
       console.log(error)
       res.status(500).json({
-        msg: "aconteceu um erro interno no servidor, tente novamente mais tarde!"
+        message:
+          "aconteceu um erro interno no servidor, tente novamente mais tarde!"
       })
     }
   },
@@ -61,7 +62,7 @@ const authController = {
 
     if (!verificarSenha) {
       return res.status(422).json({
-        msg: "senha inválida!"
+        message: "senha inválida!"
       })
     }
 
@@ -79,8 +80,8 @@ const authController = {
       usuario.senha = null
 
       res.status(200).json({
-        msg: "Autenticação realizada com sucesso",
-        token,
+        message: "Autenticação realizada com sucesso",
+        token: token,
         usuario
       })
     } catch (err) {}
