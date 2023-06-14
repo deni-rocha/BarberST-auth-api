@@ -1,29 +1,41 @@
 import { compare, genSalt, hash } from "bcrypt"
 import { Request, Response } from "express"
 import { sign } from "jsonwebtoken"
-import Usuario from "../models/Usuario"
+import Colaborador, { IColaborador } from "../models/Colaborador"
 
-const authController = {
+const colaboradorController = {
   registrar: async (req: Request, res: Response) => {
-    const { nome, email, permissao, senha, sexo } = req.body
+    const {
+      nome,
+      email,
+      senha,
+      sexo,
+      dataDeNascimento,
+      foto,
+      horario,
+      permissao
+    }: IColaborador = req.body
 
     // criar senha
     const salt = await genSalt(12)
     const hashSenha = await hash(senha, salt)
 
-    // criar usuário
-    const usuario = new Usuario({
+    // criar colaborador
+    const colaborador = new Colaborador({
       nome,
       email,
-      permissao,
       senha: hashSenha,
-      sexo
+      sexo,
+      dataDeNascimento,
+      foto,
+      horario,
+      permissao
     })
 
     try {
-      await usuario.save()
+      await colaborador.save()
       res.status(201).json({
-        message: "Usuário criado com sucesso!"
+        message: "Colaborador criado com sucesso!"
       })
     } catch (error) {
       console.log(error)
@@ -48,17 +60,17 @@ const authController = {
       })
     }
 
-    // verificar se usuário já existe
-    const usuario = await Usuario.findOne({ email: email })
+    // verificar se colaborador já xiste
+    const colaborador = await Colaborador.findOne({ email: email })
 
-    if (!usuario) {
+    if (!colaborador) {
       return res.status(404).json({
-        message: "usuário não encontrado!"
+        message: "colaborador não encontrado!"
       })
     }
 
     // verificar se a senha coincidem
-    const verificarSenha = await compare(senha, usuario.senha)
+    const verificarSenha = await compare(senha, colaborador.senha)
 
     if (!verificarSenha) {
       return res.status(422).json({
@@ -67,25 +79,25 @@ const authController = {
     }
 
     try {
-      const secret = process.env.SECRET
+      const secret = process.env.SECRET_COLABORADOR
 
       const token = sign(
         {
-          id: usuario.id
+          id: colaborador.id
         },
         secret
       )
 
-      // remove a senha do obejeto usuario
-      usuario.senha = null
+      // remove a senha do obejeto colaborador
+      colaborador.senha = null
 
       res.status(200).json({
         message: "Autenticação realizada com sucesso",
         token: token,
-        usuario
+        colaborador
       })
     } catch (err) {}
   }
 }
 
-export default authController
+export default colaboradorController

@@ -3,7 +3,8 @@ import express = require("express")
 import { Router } from "express"
 
 import cors = require("cors")
-import authRouter from "./routes/auth"
+import authUsuario from "./routes/authUsuario"
+import authColaborador from "./routes/authColaborador"
 import loaders from "./loaders"
 
 // configurações
@@ -14,8 +15,11 @@ app.use(cors())
 app.use(express.json())
 app.use(router)
 
-// rota de autenticação
-app.use("/api/auth", authRouter)
+// rota de autenticação de usuário
+app.use("/api/auth", authUsuario)
+
+// rota de autenticação de colaborador
+app.use("/api/authColaborador", authColaborador)
 
 // conectar database
 loaders()
